@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký và Đăng nhập</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            /* Sử dụng màu tím hồng bạn yêu cầu làm nền */
+            background-color: rgba(155, 65, 143, 0.9);
+            color: white;
+            /* Đổi màu chữ body sang trắng để tương phản tốt hơn trên nền tối */
+            position: relative;
+            overflow: hidden;
+            /* Ngăn cuộn nếu có các hiệu ứng nền */
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.15);
+            /* Giảm độ trong suốt để nền tím hồng hiển thị rõ hơn */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            /* Tăng bóng đổ để làm nổi bật container */
+            width: 350px;
+            margin: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* Viền trắng nhạt để tạo đường nét */
+        }
+        
+        h2 {
+            color: white;
+            /* Đổi màu tiêu đề sang trắng cho đồng bộ với nền tím hồng */
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 2.2em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            /* Thêm bóng chữ nhẹ */
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+            /* Đổi màu label sang trắng */
+            font-weight: bold;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            /* Màu placeholder trắng nhạt */
+            font-style: italic;
+        }
+        
+        input:focus {
+            border-color: rgba(255, 255, 255, 0.8);
+            /* Màu border khi focus là trắng sáng */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+            outline: none;
+        }
+        
+        input::-webkit-input-placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+        
+        input:-moz-placeholder {
+            /* Firefox 18- */
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+        
+        input::-moz-placeholder {
+            /* Firefox 19+ */
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+        
+        input:-ms-input-placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+        
+        input {
+            width: calc(100% - 16px);
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            /* Nền input trong suốt nhẹ */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* Viền input trắng mờ */
+            border-radius: 6px;
+            box-sizing: border-box;
+            color: white;
+            /* Chữ input màu trắng */
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        button {
+            background-color: white;
+            /* Nút màu trắng để nổi bật trên nền tím hồng */
+            color: rgba(155, 65, 143, 0.9);
+            /* Chữ nút màu tím hồng */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            font-weight: 600;
+            /* Tăng độ đậm cho chữ nút */
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Nút trắng hơi mờ khi hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        #message,
+        #loginMessage {
+            margin-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            /* Màu thông báo trắng mờ */
+            font-style: italic;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background-color: rgba(255, 255, 255, 0.15);
+            /* Nút quay lại màu trắng mờ */
+            color: white;
+            /* Chữ nút quay lại màu trắng */
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        /* Giữ màu xanh dương cho nút đăng nhập hoặc đổi thành màu trắng nếu bạn muốn */
+        
+        #loginForm button {
+            background-color: white;
+            color: rgba(155, 65, 143, 0.9);
+            /* Chữ màu tím hồng như nút đăng ký */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        #loginForm button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        /* Hiệu ứng hạt nền nhẹ nhàng */
+        
+        .background-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            /* Hạt màu trắng trong suốt */
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+        
+        .particle:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            left: 10%;
+            top: 20%;
+            animation-duration: 18s;
+            animation-delay: 0s;
+        }
+        
+        .particle:nth-child(2) {
+            width: 15px;
+            height: 15px;
+            left: 30%;
+            top: 50%;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        
+        .particle:nth-child(3) {
+            width: 25px;
+            height: 25px;
+            left: 70%;
+            top: 30%;
+            animation-duration: 25s;
+            animation-delay: 4s;
+        }
+        
+        .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            left: 85%;
+            top: 70%;
+            animation-duration: 19s;
+            animation-delay: 1s;
+        }
+        
+        .particle:nth-child(5) {
+            width: 18px;
+            height: 18px;
+            left: 50%;
+            top: 10%;
+            animation-duration: 20s;
+            animation-delay: 3s;
+        }
+        
+        .particle:nth-child(6) {
+            width: 22px;
+            height: 22px;
+            left: 5%;
+            top: 80%;
+            animation-duration: 23s;
+            animation-delay: 5s;
+        }
+        
+        .particle:nth-child(7) {
+            width: 13px;
+            height: 13px;
+            left: 90%;
+            top: 40%;
+            animation-duration: 21s;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="baibaocaotest.html" class="back-button">Quay lại</a>
+    <div class="container">
+        <h2>Đăng ký Tài khoản</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Họ và tên:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="regEmailOrPhone">Email hoặc Số điện thoại:</label>
+                <input type="text" id="regEmailOrPhone" name="regEmailOrPhone" required>
+            </div>
+            <div class="form-group">
+                <label for="regPassword">Mật khẩu:</label>
+                <input type="password" id="regPassword" name="regPassword" required>
+            </div>
+            <button type="submit">Đăng ký</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <div class="container">
+        <h2>Đăng nhập</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmailOrPhone">Email hoặc Số điện thoại:</label>
+                <input type="text" id="loginEmailOrPhone" name="loginEmailOrPhone" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Mật khẩu:</label>
+                <input type="password" id="loginPassword" name="loginPassword" required>
+            </div>
+            <button type="submit" onclick="autoFillLogin()">Đăng nhập</button>
+        </form>
+        <div id="loginMessage"></div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const emailOrPhone = document.getElementById('regEmailOrPhone').value;
+            const password = document.getElementById('regPassword').value;
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = `Đăng ký thành công với Email/SĐT: ${emailOrPhone}`;
+
+            // Lưu thông tin đăng ký (chỉ ở phía trình duyệt)
+            localStorage.setItem('registeredEmailOrPhone', emailOrPhone);
+            localStorage.setItem('registeredPassword', password);
+        });
+
+        function autoFillLogin() {
+            const loginEmailOrPhoneInput = document.getElementById('loginEmailOrPhone');
+            const loginPasswordInput = document.getElementById('loginPassword');
+            const loginMessageDiv = document.getElementById('loginMessage');
+
+            const registeredEmailOrPhone = localStorage.getItem('registeredEmailOrPhone');
+            const registeredPassword = localStorage.getItem('registeredPassword');
+
+            if (registeredEmailOrPhone && registeredPassword) {
+                loginEmailOrPhoneInput.value = registeredEmailOrPhone;
+                loginPasswordInput.value = registeredPassword;
+                loginMessageDiv.textContent = 'Thông tin đăng ký đã được tự động điền.';
+            } else {
+                loginMessageDiv.textContent = 'Chưa có thông tin đăng ký nào được lưu.';
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const loginEmailOrPhone = document.getElementById('loginEmailOrPhone').value;
+            const loginPassword = document.getElementById('loginPassword').value;
+            const loginMessageDiv = document.getElementById('loginMessage');
+
+            const registeredEmailOrPhone = localStorage.getItem('registeredEmailOrPhone');
+            const registeredPassword = localStorage.getItem('registeredPassword');
+
+            if (loginEmailOrPhone === registeredEmailOrPhone && loginPassword === registeredPassword) {
+                loginMessageDiv.textContent = 'Đăng nhập thành công!';
+                // Ở đây bạn có thể chuyển hướng người dùng đến trang chính
+                // window.location.href = 'trangchu.html';
+            } else {
+                loginMessageDiv.textContent = 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MST Perfume - Giới thiệu về chúng tôi</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <style>
+         :root {
+            --primary-purple: #98478d;
+            --dark-purple: #5a1952;
+            --light-purple-hover: #7a3a73;
+            --text-light: white;
+            --text-dark: #333;
+            --button-register-bg: #c0392b;
+            --button-register-hover: #e74c3c;
+            --bg-body-color: rgb(127, 122, 122);
+            --bg-container-color: rgba(255, 255, 255, 0.1);
+            --border-light: rgba(255, 255, 255, 0.3);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            --shadow-light: rgba(0, 0, 0, 0.2);
+        }
+        
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-body-color);
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-light);
+        }
+        
+        header {
+            background-color: var(--primary-purple);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px var(--shadow-dark);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            margin-right: auto;
+        }
+        
+        .navbar-brand img {
+            width: 70px;
+            height: 70px;
+            border: 3px solid var(--text-light);
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 10px var(--shadow-dark);
+        }
+        
+        .header-main-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        
+        .search-container {
+            display: none;
+        }
+        
+        .search-input {
+            padding: 10px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 5px;
+            outline: none;
+            width: 100%;
+            font-size: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .search-input:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--text-light);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-button {
+            padding: 10px 15px;
+            background-color: var(--dark-purple);
+            color: var(--text-light);
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+            box-shadow: 0 2px 4px var(--shadow-light);
+        }
+        
+        .search-button:hover {
+            background-color: var(--light-purple-hover);
+            transform: translateY(-2px);
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropbtn,
+        .menu-btn,
+        .cart-btn {
+            background-color: var(--dark-purple);
+            color: var(--text-light);
+            padding: 12px 18px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+            box-shadow: 0 2px 4px var(--shadow-light);
+        }
+        
+        .dropbtn:hover,
+        .menu-btn:hover,
+        .cart-btn:hover {
+            background-color: var(--light-purple-hover);
+            transform: translateY(-2px);
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--light-purple-hover);
+            min-width: 180px;
+            box-shadow: 0px 8px 16px 0px var(--shadow-dark);
+            z-index: 1;
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+        }
+        
+        .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 18px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: var(--primary-purple);
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .menu-btn a,
+        .cart-btn a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .register-btn {
+            background-color: rgb(47, 11, 34);
+            color: rgb(255, 255, 255);
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            background-color: var(--button-register-hover);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px;
+            background: var(--bg-container-color);
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--shadow-light);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            text-align: center;
+        }
+        
+        .container h2,
+        .container h3 {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-shadow: 1px 1px 3px var(--shadow-dark);
+        }
+        
+        .container p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        .container ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .container ul li {
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+        
+        .container .about-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            vertical-align: middle;
+            margin: 0 15px;
+            border: 2px solid var(--text-light);
+            box-shadow: 0 0 8px var(--shadow-dark);
+        }
+        
+        .footer {
+            background-color: var(--dark-purple);
+            color: var(--text-light);
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 -4px 8px var(--shadow-dark);
+        }
+        
+        .footer-column h4 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+            padding-bottom: 8px;
+            font-size: 1.1em;
+            color: #f0f0f0;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--text-light);
+        }
+        
+        .footer-bottom {
+            background-color: #333;
+            color: #ddd;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        
+        .footer-social a {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-size: 1.3em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .footer-social a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+            .navbar-brand {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .navbar-brand img {
+                width: 80px;
+                height: 80px;
+                border: 3px solid rgb(149, 58, 93);
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            .header-main-menu {
+                flex-direction: column;
+                width: 100%;
+                margin-bottom: 10px;
+                gap: 5px;
+            }
+            .dropbtn,
+            .menu-btn,
+            .cart-btn {
+                padding: 10px 12px;
+                font-size: 14px;
+                margin: 5px 0;
+                width: 80%;
+            }
+            .register-btn {
+                padding: 10px 12px;
+                font-size: 14px;
+                margin-left: 0;
+                width: 80%;
+            }
+            .search-container {
+                order: -1;
+                width: 100%;
+                margin-bottom: 10px;
+                max-width: none;
+            }
+            .footer {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-social {
+                justify-content: center;
+            }
+            .container {
+                text-align: center;
+            }
+            .container ul {
+                text-align: left;
+            }
+            .container .about-logo {
+                width: 60px;
+                height: 60px;
+                margin: 10px auto;
+                display: block;
+            }
+            .container h2 {
+                font-size: 1.8em;
+            }
+        }
+        
+        .menu-btn a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a class="navbar-brand" href="#"><img src="images/LamBaiBaoCao/Logo.jpg" alt="LMST Logo"></a>
+
+        <div class="header-main-menu">
+            <div class="dropdown">
+                <button class="dropbtn">Thương hiệu</button>
+                <div class="dropdown-content">
+                    <a href="mst.html">Tất Cả</a>
+                    <a href="LeMale.html">Le Male</a>
+                    <a href="Dior.html">Dior</a>
+                    <a href="Lascote.html">Lascote</a>
+                </div>
+            </div>
+            <button class="menu-btn"><a href="hotsale.html">Bán chạy</a></button>
+            <button class="cart-btn"><a href="Giohang.html">Giỏ hàng</a></button>
+        </div>
+
+        <button class="register-btn">Đăng nhập</button>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>
+                Chào mừng bạn đến với
+                <img src="images/LamBaiBaoCao/Logo.jpg" alt="LMST Logo" class="about-logo"> MST Perfume!
+            </h2>
+            <p>MST Perfume là điểm đến tin cậy hàng đầu cho những người yêu nước hoa tại Việt Nam. Chúng tôi tự hào mang đến bộ sưu tập nước hoa đa dạng và tinh tế, được tuyển chọn kỹ lưỡng từ những thương hiệu danh tiếng trên toàn thế giới.</p>
+
+            <h3>Sứ mệnh của chúng tôi</h3>
+            <p>Chúng tôi cam kết cung cấp sản phẩm chính hãng 100% với chất lượng vượt trội, cùng dịch vụ tư vấn chuyên nghiệp, giúp bạn tìm thấy mùi hương hoàn hảo, phản ánh đúng cá tính và phong cách của riêng bạn.</p>
+
+            <h3>Tại sao chọn MST Perfume?</h3>
+            <ul>
+                <li><strong>Sản phẩm chính hãng:</strong> Đảm bảo nguồn gốc rõ ràng, chất lượng và an toàn.</li>
+                <li><strong>Đa dạng lựa chọn:</strong> Cập nhật liên tục các dòng nước hoa kinh điển và độc đáo.</li>
+                <li><strong>Tư vấn chuyên sâu:</strong> Hỗ trợ bạn khám phá mùi hương phù hợp nhất.</li>
+                <li><strong>Trải nghiệm tiện lợi:</strong> Mua sắm dễ dàng, nhanh chóng và an toàn.</li>
+                <li><strong>Ưu đãi hấp dẫn:</strong> Các chương trình khuyến mãi và quà tặng thường xuyên.</li>
+            </ul>
+
+            <p style="text-align: center; margin-top: 30px; font-weight: bold;">Hãy để chúng tôi đồng hành cùng bạn trên hành trình khám phá thế giới mùi hương!</p>
+        </div>
+    </main>
+
+    <div class="footer">
+        <div class="footer-column">
+            <h4>GIỚI THIỆU MST</h4>
+            <ul>
+                <li><a href="#">Về MST</a></li>
+                <li><a href="#">Tầm nhìn & Sứ mệnh</a></li>
+                <li><a href="#">Giá trị cốt lõi</a></li>
+                <li><a href="#">Tin tức</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>SẢN PHẨM</h4>
+            <ul>
+                <li><a href="#">Nước hoa Nam</a></li>
+                <li><a href="#">Nước hoa Nữ</a></li>
+                <li><a href="#">Nước hoa Unisex</a></li>
+                <li><a href="#">Bộ quà tặng</a></li>
+                <li><a href="#">Sản phẩm nổi bật</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+            <ul>
+                <li><a href="#">Hướng dẫn mua hàng</a></li>
+                <li><a href="#">Chính sách giao hàng</a></li>
+                <li><a href="#">Chính sách đổi trả</a></li>
+                <li><a href="#">Chính sách bảo mật</a></li>
+                <li><a href="#">Câu hỏi thường gặp</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>THÔNG TIN</h4>
+            <ul>
+                <li><a href="#">Hệ thống cửa hàng</a></li>
+                <li><a href="#">Liên hệ</a></li>
+                <li><a href="#">Tuyển dụng</a></li>
+                <li><a href="#">Khuyến mãi</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>KẾT NỐI VỚI MST</h4>
+            <div class="footer-social">
+                <a href="https://www.facebook.com/hungtran5125" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                </a>
+                <a href="#" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+                <a href="#" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-twitter">
+                        <path
+                            d="M18.244 2.25h.465l-7.051 9.475L22.868 21.75H16.14a.75.75 0 0 1-.58-.291L10.59 15.351 4.75 21.75H2l8.037-9.421L2.25 2.25h6.393L12 8.686l-.07-.075L18.244 2.25z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 MST Perfume. All rights reserved.</p>
+        <p>Địa chỉ: 69A Diddy Văn Nuyên, TP Cần Thơ</p>
+        <p>Điện thoại: 0945322987</p>
+        <p>Email: mslperfume@gmail.com</p>
+    </div>
+</body>
+
+</html>

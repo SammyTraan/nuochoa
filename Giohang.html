@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng của bạn</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(to right, rgba(155, 65, 143, 0.9));
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .cart-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: #7575756c;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .cart-header,
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-header {
+            font-weight: bold;
+            color: #ffffff;
+            text-transform: uppercase;
+            border-bottom: 2px solid #ccc;
+        }
+        
+        .cart-col {
+            width: 20%;
+            text-align: left;
+            padding: 0 10px;
+        }
+        
+        .cart-col:first-child {
+            width: 30%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-item img {
+            max-width: 90px;
+            height: auto;
+            margin-right: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cart-item-info p {
+            margin: 0;
+            color: #444;
+        }
+        
+        .cart-item-info p:first-child {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .quantity-btn {
+            background-color: #e0e0e0;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: default;
+            opacity: 0.7;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 0 8px;
+            font-size: 1em;
+            -moz-appearance: textfield;
+            pointer-events: none;
+            background-color: #f5f5f5;
+        }
+        
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .delete-btn {
+            background-color: #ef5350;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: default;
+            opacity: 0.7;
+        }
+        
+        .cart-item .cart-col a {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: block;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .cart-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .cart-footer-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-footer-left input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .cart-footer-left label {
+            margin-right: 20px;
+            font-weight: bold;
+            color: #444;
+        }
+        
+        .cart-footer-left button {
+            background-color: rgba(155, 65, 143, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: default;
+            margin-right: 10px;
+            opacity: 0.7;
+        }
+        
+        .cart-footer-right {
+            text-align: right;
+            font-size: 1.2em;
+        }
+        
+        .cart-footer-right p {
+            margin: 0 0 15px 0;
+            color: #444;
+        }
+        
+        #total-price {
+            font-weight: bold;
+            color: #d32f2f;
+            font-size: 1.3em;
+        }
+        
+        .buy-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: default;
+            font-size: 1.1em;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(155, 65, 143, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+        
+        .back-button:hover {
+            background-color: rgba(155, 65, 143, 0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="mst.html" class="back-button">Quay lại</a>
+    <div class="cart-container">
+        <h1>Giỏ hàng của bạn</h1>
+        <div class="cart-header">
+            <div class="cart-col">Sản Phẩm</div>
+            <div class="cart-col">Đơn Giá</div>
+            <div class="cart-col">Số Lượng</div>
+            <div class="cart-col">Số Tiền</div>
+            <div class="cart-col">Thao Tác</div>
+        </div>
+        <div class="cart-items">
+            <div class="cart-item">
+                <div class="cart-col">
+                    <input type="checkbox" class="cart-checkbox">
+                    <img src="images/LamBaiBaoCao/lascotered.webp" alt="Lascote Energetic EDT">
+                    <div class="cart-item-info">
+                        <p>Lascote Energetic EDT</p>
+                        <p>Phân Loại Hàng: ...</p>
+                    </div>
+                </div>
+                <div class="cart-col">1.550.000 VND</div>
+                <div class="cart-col">
+                    <button class="quantity-btn">-</button>
+                    <input type="number" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <div class="cart-col">1.550.000 VND</div>
+                <div class="cart-col">
+                    <button class="delete-btn">Xóa</button>
+                    <a href="#">Tìm sản phẩm tương tự</a>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <div class="cart-col">
+                    <input type="checkbox" class="cart-checkbox">
+                    <img src="images/LamBaiBaoCao/Paradise Garden La Belle.jpg" alt="Le Beau Paradise Garden">
+                    <div class="cart-item-info">
+                        <p>Le Beau Paradise Garden</p>
+                        <p>Phân Loại Hàng: ...</p>
+                    </div>
+                </div>
+                <div class="cart-col">2.850.000 VND</div>
+                <div class="cart-col">
+                    <button class="quantity-btn">-</button>
+                    <input type="number" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <div class="cart-col">2.850.000 VND</div>
+                <div class="cart-col">
+                    <button class="delete-btn">Xóa</button>
+                    <a href="#">Tìm sản phẩm tương tự</a>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <div class="cart-col">
+                    <input type="checkbox" class="cart-checkbox">
+                    <img src="images/LamBaiBaoCao/lascotered.webp" alt="Lascote Energetic EDT">
+                    <div class="cart-item-info">
+                        <p>Lascote Energetic EDT</p>
+                        <p>Phân Loại Hàng: ...</p>
+                    </div>
+                </div>
+                <div class="cart-col">1.550.000 VND</div>
+                <div class="cart-col">
+                    <button class="quantity-btn">-</button>
+                    <input type="number" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <div class="cart-col">1.550.000 VND</div>
+                <div class="cart-col">
+                    <button class="delete-btn">Xóa</button>
+                    <a href="#">Tìm sản phẩm tương tự</a>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <div class="cart-col">
+                    <input type="checkbox" class="cart-checkbox">
+                    <img src="images/LamBaiBaoCao/Le Beau Eau De Toitelle.jpg" alt="Le Beau Eau De Toilette">
+                    <div class="cart-item-info">
+                        <p>Le Beau Eau De Toilette</p>
+                        <p>Phân Loại Hàng: ...</p>
+                    </div>
+                </div>
+                <div class="cart-col">2.660.000 VND</div>
+                <div class="cart-col">
+                    <button class="quantity-btn">-</button>
+                    <input type="number" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <div class="cart-col">2.660.000 VND</div>
+                <div class="cart-col">
+                    <button class="delete-btn">Xóa</button>
+                    <a href="#">Tìm sản phẩm tương tự</a>
+                </div>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-footer-left">
+                <input type="checkbox" id="select-all">
+                <label for="select-all">Chọn Tất Cả (<span id="total-items">4</span>)</label>
+                <button class="delete-selected-btn">Xóa</button>
+                <button class="save-btn">Lưu vào mục Đã thích...</button>
+            </div>
+            <div class="cart-footer-right">
+                <p>Tổng cộng (<span id="total-items-2">4</span> Sản phẩm): <span id="total-price">8.610.000 VND</span></p>
+                <button class="buy-btn">Mua Hàng</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

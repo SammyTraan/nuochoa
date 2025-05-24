@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMST</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(255, 255, 255);
+            color: rgb(127, 122, 122);
+        }
+        
+        .fixed-header-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: 1000;
+            background-image: url('images/LamBaiBaoCao/banner.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        header {
+            background: none !important;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(155, 65, 143, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-left .dropdown {
+            margin-left: 10px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
+        
+        .product {
+            text-align: center;
+            border: 1px solid rgba(255, 253, 253, 0.766);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 6px;
+            font-size: 15px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .product:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .product img {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 6px;
+            border-radius: 10px;
+            transition: opacity 0.2s ease-in-out;
+        }
+        
+        .product:hover img {
+            opacity: 0.9;
+        }
+        
+        .product button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: #98478d;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            margin-top: 10px;
+        }
+        
+        .product button:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropbtn,
+        .menu-btn,
+        .cart-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .dropbtn:hover,
+        .menu-btn:hover,
+        .cart-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(155, 65, 143, 0.9);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+        
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .menu-btn a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+        
+        .register-btn {
+            background-color: rgb(47, 11, 34);
+            color: rgb(255, 255, 255);
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            background-color: rgba(47, 11, 34, 0.8);
+        }
+        
+        .navbar-brand img {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgb(149, 58, 93);
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .cart-btn a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgb(149, 58, 93);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(171, 32, 113, 0.1);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px)
+        }
+        
+        .carousel-inner {
+            max-height: 670px;
+        }
+        
+        .carousel-item img {
+            max-height: 800px;
+            object-fit: cover;
+        }
+        
+        .caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .caption h3 {
+            margin-top: 0;
+        }
+        
+        .caption p {
+            margin-bottom: 0;
+        }
+        
+        .footer {
+            background-color: rgba(47, 11, 34, 0.8);
+            color: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer-column h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 5px;
+        }
+        
+        .footer-column ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-bottom {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .footer-social a {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+        
+        .footer-social a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .star {
+            color: yellow;
+        }
+        
+        .modal-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            border-radius: 10px;
+        }
+        
+        .modal-header {
+            border-bottom: none;
+        }
+        
+        .modal-title {
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .nav-tabs .nav-link {
+            color: #555;
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: rgb(149, 58, 93);
+            background-color: transparent;
+            border-color: rgb(149, 58, 93);
+        }
+        
+        .form-label {
+            color: #333;
+        }
+        
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        
+        .btn-primary {
+            background-color: rgb(47, 11, 34);
+            border-color: rgb(47, 11, 34);
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: rgba(47, 11, 34, 0.8);
+            border-color: rgba(47, 11, 34, 0.8);
+        }
+        
+        .text-dark a {
+            color: rgb(149, 58, 93);
+            text-decoration: none;
+        }
+        
+        .text-dark a:hover {
+            text-decoration: underline;
+        }
+        
+        main {
+            margin-top: 100px;
+        }
+        
+        .fixed-header-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: 1000;
+            background: rgba(155, 65, 143, 0.9);
+        }
+        
+        .star {
+            color: gold;
+            text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="fixed-header-wrapper">
+        <header>
+            <a class="navbar-brand" href="#"><img src="images/LamBaiBaoCao/Logo.jpg" alt=""></a>
+            <div class="header-left">
+                <div class="dropdown">
+                    <button class="dropbtn">Thương hiệu</button>
+                    <div class="dropdown-content">
+                        <a href="mst.html">Tất Cả</a>
+                        <a href="LeMale.html">Le Male</a>
+                        <a href="Dior.html">Dior</a>
+                        <a href="Lascote.html">Lascote</a>
+                    </div>
+                </div>
+                <button class="menu-btn"><a href="hotsale.html">Bán chạy</a></button>
+                <button class="cart-btn"><a href="Giohang.html">Giỏ hàng</a></button>
+            </div>
+            <div class="header-right">
+                <button type="button" class="register-btn" data-bs-toggle="modal" data-bs-target="#loginRegisterModal">
+                    Đăng nhập
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <main>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/LamBaiBaoCao/lascotead.jpg " class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/LamBaiBaoCao/LeMalead.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/LamBaiBaoCao/diorad.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="product-grid">
+            <div class="product">
+                <img src="images/LamBaiBaoCao/lascoteblue.webp" alt="Nước hoa 1">
+                <p>Lascote Bleu EDT for Men</p>
+                <p>Giá: 1.550.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="lascoteblue">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 120</span>
+                </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal1">
+                    Xem chi tiết
+                </button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/lascotepurple.jpg" alt="Nước hoa 2">
+                <p>Lascote Elle Magnetic EDP</p>
+                <p>Giá: 1.560.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="lascotepurple">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 75</span>
+                </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal2">
+                    Xem chi tiết
+                </button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/lascotered.webp" alt="Nước hoa 3">
+                <p>Lascote Energetic EDT</p>
+                <p>Giá: 1.550.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="lascotered">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 210</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/lascotewhite.webp" alt="Nước hoa 4">
+                <p>Lascote Blanc EDT</p>
+                <p>Giá: 2.050.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="lascotewhite">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 95</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/pinklas.jpg" alt="Nước hoa 5">
+                <p>Lascote Sparkling EDT</p>
+                <p>Giá: 1.800.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="pinklas">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 180</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/appledior.jpg" alt="Nước hoa 6">
+                <p>Dior Hypnotic Poison EDT</p>
+                <p>Giá: 3.090.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="appledior">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 60</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/forwomendior.jpeg" alt="Nước hoa 7">
+                <p>Dior J'adore EDP</p>
+                <p>Giá: 2.600.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="forwomendior">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 155</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/malediorbluedark.jpg" alt="Nước hoa 8">
+                <p>Dior Eau De Toilette</p>
+                <p>Giá: 3.800.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="malediorbluedark">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 88</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/miss-dior-edp-box.jpg" alt="Nước hoa 9">
+                <p>Dior Miss Dior EDP</p>
+                <p>Giá: 3.850.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="miss-dior-edp-box">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 115</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/CHRISTIAN-DIOR-JASMIN-DES-ANGES-EDP-FOR-UNISEX-MINI.jpg" alt="Nước hoa 10">
+                <p>Christian Dior La Collection</p>
+                <p>Giá: 8.500.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="christian-dior-jasmin-des-anges-edp-for-unisex-mini">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 42</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/ex2.webp" alt="Nước hoa 11">
+                <p>Le Male Elixir</p>
+                <p>Giá: 3.590.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="le-male-elixir">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 250</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/Summer Fragnce.jpg" alt="Nước hoa 12">
+                <p>La Male Summer 2013</p>
+                <p>Giá: 2.500.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="la-male-summer-2013">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 90</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/Paradise Garden La Belle.jpg" alt="Nước hoa 13">
+                <p>Le Beau Paradise Garden</p>
+                <p>Giá: 2.850.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="le-beau-paradise-garden">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 130</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/Ultra Male Intense.jfif" alt="Nước hoa 14">
+                <p>Ultra Male EDT Intense</p>
+                <p>Giá: 3.100.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="ultra-male-edt-intense">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 195</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+
+            <div class="product">
+                <img src="images/LamBaiBaoCao/Le Beau Eau De Toitelle.jpg" alt="Nước hoa 15">
+                <p>Le Beau Eau De Toilette</p>
+                <p>Giá: 2.660.000 VND</p>
+                <div class="product-info-bottom">
+                    <div class="rating-stars" data-product-id="le-beau-eau-de-toilette">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <span class="sold-quantity">Đã bán: 70</span>
+                </div>
+                <button>Thêm vào giỏ hàng</button>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-column">
+                <h4>GIỚI THIỆU MST</h4>
+                <ul>
+                    <li><a href="Gioithieu.html">Về MST</a></li>
+                    <li><a href="#">Tầm nhìn & Sứ mệnh</a></li>
+                    <li><a href="#">Giá trị cốt lõi</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>SẢN PHẨM</h4>
+                <ul>
+                    <li><a href="#">Nước hoa Nam</a></li>
+                    <li><a href="#">Nước hoa Nữ</a></li>
+                    <li><a href="#">Nước hoa Unisex</a></li>
+                    <li><a href="#">Bộ quà tặng</a></li>
+                    <li><a href="#">Sản phẩm nổi bật</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+                <ul>
+                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#">Chính sách giao hàng</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>THÔNG TIN</h4>
+                <ul>
+                    <li><a href="#">Hệ thống cửa hàng</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Khuyến mãi</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>KẾT NỐI VỚI MST</h4>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/hungtran5125" target="_blank"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="feather feather-facebook">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg></a>
+                    <a href="#" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg></a>
+                    <a href="#" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-twitter">
+                            <path
+                                d="M18.244 2.25h.465l-7.051 9.475L22.868 21.75H16.14a.75.75 0 0 1-.58-.291L10.59 15.351 4.75 21.75H2l8.037-9.421L2.25 2.25h6.393L12 8.686l-.07-.075L18.244 2.25z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MST Perfume. All rights reserved.</p>
+            <p>Địa chỉ: [69A Diddy Văn Nuyên TP Cần Thơ]</p>
+            <p>Điện thoại: [0945322987]</p>
+            <p>Email: [mslperfume@gmail.con]</p>
+        </div>
+    </main>
+    <div class="modal fade" id="productModal1" tabindex="-1" aria-labelledby="productModal1Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="productModal1Label">Lascote Bleu EDT for Men</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-dark">
+                    <img src="images/LamBaiBaoCao/lascoteblue.webp" alt="Lascote Bleu EDT for Men" class="img-fluid mb-3" width="150" height="150">
+                    <p><strong>Giá:</strong> 1.550.000 VND</p>
+                    <p><strong>Mô tả:</strong> Hương thơm tươi mát, nam tính với sự kết hợp của cam quýt, bạc hà và gỗ tuyết tùng. Hoàn hảo cho người đàn ông hiện đại, năng động.</p>
+                    <p><strong>Dung tích:</strong> 100ml</p>
+                    <p><strong>Thương hiệu:</strong> Lacoste</p>
+                    <p><strong>Đánh giá:</strong> <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span> (5/5)</p>
+                    <p><strong>Đã bán:</strong> 120 sản phẩm</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="productModal2" tabindex="-1" aria-labelledby="productModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="productModal2Label">Lascote Elle Magnetic EDP</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-dark">
+                    <img src="images/LamBaiBaoCao/lascotepurple.jpg" alt="Lascote Elle Magnetic EDP" class="img-fluid mb-3" width="150" height="150">
+                    <p><strong>Giá:</strong> 1.560.000 VND</p>
+                    <p><strong>Mô tả:</strong> Một mùi hương quyến rũ và nữ tính với nốt hương hoa quả ngọt ngào và xạ hương ấm áp. Thích hợp cho những buổi tối lãng mạn.</p>
+                    <p><strong>Dung tích:</strong> 90ml</p>
+                    <p><strong>Thương hiệu:</strong> Lacoste</p>
+                    <p><strong>Đánh giá:</strong> <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span> (5/5)</p>
+                    <p><strong>Đã bán:</strong> 75 sản phẩm</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginRegisterModal" tabindex="-1" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="loginRegisterModalLabel">Chào mừng bạn đến với MST!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">Đăng nhập</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">Đăng ký</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="loginEmail" class="form-label">Email hoặc Tên đăng nhập</label>
+                                    <input type="email" class="form-control" id="loginEmail" placeholder="Nhập email hoặc tên đăng nhập của bạn">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginPassword" class="form-label">Mật khẩu</label>
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="Nhập mật khẩu">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="#" class="text-dark">Quên mật khẩu?</a>
+                                </div>
+                                <hr>
+                                <div class="text-center mt-3">
+                                    <p class="text-dark">Chưa có tài khoản? <a href="#" data-bs-toggle="tab" data-bs-target="#register">Đăng ký ngay</a></p>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="registerUsername" class="form-label">Tên đăng nhập</label>
+                                    <input type="text" class="form-control" id="registerUsername" placeholder="Tạo tên đăng nhập của bạn">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="registerEmail" placeholder="Nhập email của bạn">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerPassword" class="form-label">Mật khẩu</label>
+                                    <input type="password" class="form-control" id="registerPassword" placeholder="Tạo mật khẩu">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Nhập lại mật khẩu">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="agreeTerms">
+                                    <label class="form-check-label" for="agreeTerms">Tôi đồng ý với các <a href="#"
+                                            class="text-dark">Điều khoản dịch vụ</a></label>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">Đăng ký</button>
+                                </div>
+                                <hr>
+                                <div class="text-center mt-3">
+                                    <p class="text-dark">Đã có tài khoản? <a href="#" data-bs-toggle="tab" data-bs-target="#login">Đăng nhập</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+    </script>
+
+</body>
+
+</html>
